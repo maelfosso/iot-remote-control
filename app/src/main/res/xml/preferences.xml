@@ -6,91 +6,56 @@
     <PreferenceCategory android:title="Keys values"
         app:iconSpaceReserved="false"
     >
-
         <EditTextPreference
-            android:defaultValue="0001"
             android:key="key_1"
-            android:selectAllOnFocus="true"
-            android:singleLine="true"
             android:title="Key 1"
+            android:defaultValue="0001"
             app:iconSpaceReserved="false"/>
         <EditTextPreference
             android:defaultValue="0010"
             android:key="key_2"
-            android:selectAllOnFocus="true"
-            android:singleLine="true"
             android:title="Key 2"
             app:iconSpaceReserved="false" />
         <EditTextPreference
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:defaultValue="0011"
-            android:key="edit_text_preference_1"
-            android:selectAllOnFocus="true"
-            android:singleLine="true"
+            android:key="key_3"
             android:title="Key 3"
+            android:defaultValue="0011"
             app:iconSpaceReserved="false" />
         <EditTextPreference
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:defaultValue="0100"
-            android:key="edit_text_preference_1"
-            android:selectAllOnFocus="true"
-            android:singleLine="true"
+            android:key="key_4"
             android:title="Key 4"
+            android:defaultValue="0100"
             app:iconSpaceReserved="false" />
         <EditTextPreference
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:defaultValue="0101"
-            android:key="edit_text_preference_1"
-            android:selectAllOnFocus="true"
-            android:singleLine="true"
+            android:defaultValue="'0101'"
+            android:key="key_5"
             android:title="Key 5"
             app:iconSpaceReserved="false" />
         <EditTextPreference
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
             android:defaultValue="0110"
-            android:key="edit_text_preference_1"
-            android:selectAllOnFocus="true"
-            android:singleLine="true"
+            android:key="key_6"
             android:title="Key 6"
+            android:inputType="text"
             app:iconSpaceReserved="false" />
         <EditTextPreference
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
             android:defaultValue="0111"
-            android:key="edit_text_preference_1"
-            android:selectAllOnFocus="true"
-            android:singleLine="true"
+            android:key="key_7"
             android:title="Key 7"
+            android:inputType="text"
             app:iconSpaceReserved="false" />
         <EditTextPreference
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
             android:defaultValue="1000"
-            android:key="edit_text_preference_1"
-            android:selectAllOnFocus="true"
-            android:singleLine="true"
+            android:key="key_8"
             android:title="Key 8"
             app:iconSpaceReserved="false" />
         <EditTextPreference
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
             android:defaultValue="1001"
-            android:key="edit_text_preference_1"
-            android:selectAllOnFocus="true"
-            android:singleLine="true"
+            android:key="key_9"
             android:title="Key 9"
             app:iconSpaceReserved="false" />
         <EditTextPreference
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
             android:defaultValue="0000"
-            android:key="edit_text_preference_1"
-            android:selectAllOnFocus="true"
-            android:singleLine="true"
+            android:key="key_0"
             android:title="Key 0"
             app:iconSpaceReserved="false" />
     </PreferenceCategory>
