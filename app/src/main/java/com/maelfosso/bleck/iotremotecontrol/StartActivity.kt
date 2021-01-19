@@ -46,7 +46,7 @@ class StartActivity : AppCompatActivity() , NavigationView.OnNavigationItemSelec
         // menu should be considered as top level destinations.
         appBarConfiguration = AppBarConfiguration(
             setOf(
-                R.id.nav_board, R.id.nav_gallery, R.id.nav_settings
+                R.id.nav_board, R.id.nav_bluetooth, R.id.nav_settings
             ), drawerLayout
         )
         setupActionBarWithNavController(navController, appBarConfiguration)
@@ -72,11 +72,21 @@ class StartActivity : AppCompatActivity() , NavigationView.OnNavigationItemSelec
         val handled = NavigationUI.onNavDestinationSelected(item, navController)
         Log.d(TAG, "onNavigationItemSelected - $handled")
 
-        if (!handled && item.itemId == R.id.nav_settings) {
-            Toast.makeText(this, "Settings activity", Toast.LENGTH_SHORT).show();
-            SettingsActivity.start(this);
-
+        if (!handled) {
+            when (item.itemId) {
+                R.id.nav_settings -> {
+                    Toast.makeText(this, "Settings activity", Toast.LENGTH_SHORT).show();
+                    SettingsActivity.start(this);
+                }
+                R.id.nav_bluetooth -> {
+                    Toast.makeText(this, "Settings activity", Toast.LENGTH_SHORT).show();
+                    BluetoothConnectionActivity.start(this);
+                }
+            }
         }
+//        if (!handled && item.itemId == R.id.nav_settings) {
+//
+//        }
 
         drawerLayout.closeDrawer(GravityCompat.START);
 
