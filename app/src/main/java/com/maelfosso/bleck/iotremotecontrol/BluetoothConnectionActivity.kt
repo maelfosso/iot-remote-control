@@ -15,6 +15,8 @@ import com.google.android.material.snackbar.Snackbar
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
+import com.maelfosso.bleck.iotremotecontrol.ui.bluetooth.devices.DevicesListFragment
+import com.maelfosso.bleck.iotremotecontrol.ui.settings.SettingsFragment
 
 class BluetoothConnectionActivity : AppCompatActivity() {
 
@@ -55,15 +57,21 @@ class BluetoothConnectionActivity : AppCompatActivity() {
                     arrayOf(Manifest.permission.ACCESS_BACKGROUND_LOCATION),
                     PERMISSION_CODE
                 )
+
+//                return
             }
         }
 
-        bluetoothAdapter = BluetoothAdapter.getDefaultAdapter()
-        setupBluetooth();
+        if (setupBluetooth()) {
+            // Open the Fragment in which I will find Devices
+            listDevices();
+        }
     }
 
     private fun setupBluetooth(): Boolean {
         Log.d(TAG, "setupBluetooth()")
+
+        bluetoothAdapter = BluetoothAdapter.getDefaultAdapter()
 
         if (bluetoothAdapter == null) {
             Toast.makeText(this,
@@ -112,7 +120,16 @@ class BluetoothConnectionActivity : AppCompatActivity() {
             return false
         }
 
+
         return true
+    }
+
+    private fun listDevices() {
+        Log.d(TAG, "Display the list of devices")
+
+        supportFragmentManager.beginTransaction()
+            .replace(R.id.content_bluetooth_connection, DevicesListFragment())
+            .commit();
     }
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
@@ -129,7 +146,9 @@ class BluetoothConnectionActivity : AppCompatActivity() {
                         Toast.LENGTH_LONG
                     ).show()
 
-                    makeDeviceDiscoverable()
+                    if (makeDeviceDiscoverable()) {
+                        listDevices();
+                    }
                 } else {
                     Log.d(TAG, "Sorry but you need to enable your Bluetooth to move on")
 
@@ -149,7 +168,9 @@ class BluetoothConnectionActivity : AppCompatActivity() {
                         Toast.LENGTH_LONG
                     ).show()
 
-                    makeDeviceDiscoverable()
+                    if (makeDeviceDiscoverable()) {
+                        listDevices()
+                    }
                 } else {
                     Log.d(TAG, "Sorry! Discoverability rejected")
 
@@ -162,4 +183,5 @@ class BluetoothConnectionActivity : AppCompatActivity() {
         }
 
     }
+
 }
