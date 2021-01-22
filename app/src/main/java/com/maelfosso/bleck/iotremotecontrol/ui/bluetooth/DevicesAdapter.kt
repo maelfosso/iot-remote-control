@@ -1,8 +1,6 @@
 package com.maelfosso.bleck.iotremotecontrol.ui.bluetooth
 
 import android.bluetooth.BluetoothDevice
-import android.content.Context
-import android.content.Intent
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
@@ -10,13 +8,13 @@ import android.view.ViewGroup
 import android.widget.TextView
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
-import com.maelfosso.bleck.iotremotecontrol.BluetoothConnectionActivity
 import com.maelfosso.bleck.iotremotecontrol.R
+import com.maelfosso.bleck.iotremotecontrol.databinding.BluetoothDevicesItemBinding
 
-class DevicesAdapter() // (devicesList: List<BluetoothDevice>?) //,  val clickListener: DevicesListener)
-//        : ListAdapter<BluetoothDevice, DevicesAdapter.ViewHolder>() {
-
-        : RecyclerView.Adapter<DevicesAdapter.ViewHolder>() {
+class DevicesAdapter(val clickListener: DevicesListener) :
+//        ListAdapter<BluetoothDevice, DevicesAdapter.ViewHolder>()
+        RecyclerView.Adapter<DevicesAdapter.ViewHolder>()
+    {
 
     companion object {
         var TAG: String = javaClass.name
@@ -30,46 +28,84 @@ class DevicesAdapter() // (devicesList: List<BluetoothDevice>?) //,  val clickLi
 
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
-        val v = LayoutInflater.from(parent.context)
-            .inflate(R.layout.bluetooth_devices_item, parent, false)
-        return ViewHolder(v)
+        val layoutInflater = LayoutInflater.from(parent.context)
+        val binding = BluetoothDevicesItemBinding
+            .inflate(layoutInflater, parent, false)
+
+
+        return ViewHolder(binding)
     }
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
-        holder.name.text = devices[position].name
-        holder.address.text = devices[position].address
-        holder.status.text = "paired"
+        val item = devices[position]
 
-//        holder.
+        holder.bind(item, clickListener)
     }
 
     override fun getItemCount(): Int {
         return devices!!.size
     }
 
-    inner class ViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
-        var name: TextView
-        var status: TextView
-        var address: TextView
+    private fun ViewHolder.bind(
+        item: BluetoothDevice,
+        onClickListener: DevicesListener
+    ) {
+        with (binding) {
+            name.text = item.name
+            address.text = item.address
+            status.text = "paired"
 
-        init {
-            name = itemView.findViewById(R.id.name)
-            address = itemView.findViewById(R.id.address)
-            status = itemView.findViewById(R.id.status)
+            device = item
+            clickListener = onClickListener
 
-            itemView.setOnClickListener {
-                val position: Int = adapterPosition
-                val context = itemView.context
-//                val intent = Intent(context,)
-
-                Log.d(TAG, "item clicked - ${position}")
-
-            }
+            executePendingBindings()
         }
+
+    }
+
+    inner class ViewHolder(val binding: BluetoothDevicesItemBinding) : RecyclerView.ViewHolder(binding.root) {
+
+    }
+
+
+    class DevicesListener(val clickListener: (deviceAddress: String) -> Unit) {
+        fun onClick(device: BluetoothDevice) = clickListener(device.address)
     }
 
 }
 
-class DevicesListener(val clickListener: (deviceAddress: String) -> Unit) {
-    fun onClick(device: BluetoothDevice) = clickListener(device.address)
-}
+//        companion object {
+//            fun from(parent: ViewGroup): ViewHolder {
+//                val layoutInflater = LayoutInflater.from(parent.context)
+////                val v = layoutInflater
+////                    .inflate(R.layout.bluetooth_devices_item, parent, false)
+//
+//                val binding = BluetoothDevicesItemBinding
+//                    .inflate(layoutInflater, parent, false)
+//
+//
+//                return ViewHolder(binding)
+//            }
+//        }
+
+//        fun bind(item: BluetoothDevice) {
+//            with(binding) {
+//
+//            }
+//        }
+//        var name: TextView = itemView.findViewById(R.id.name)
+//        var status: TextView = itemView.findViewById(R.id.status)
+//        var address: TextView = itemView.findViewById(R.id.address)
+
+//        init {
+//
+//            itemView.setOnClickListener {
+//                val position: Int = adapterPosition
+//                val context = itemView.context
+////                val intent = Intent(context,)
+//
+//                Log.d(TAG, "item clicked - ${position}")
+//
+//            }
+//        }
+////    }

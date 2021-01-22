@@ -10,6 +10,7 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -59,7 +60,9 @@ class DevicesListFragment : Fragment() {
         binding.devicesViewModel?.devices?.forEach {
             Log.d(TAG, "VMODEL - Devics : ${it.name} - ${it.address}")
         }
-        val adapter = DevicesAdapter()
+        val adapter = DevicesAdapter(DevicesAdapter.DevicesListener { device ->
+            Toast.makeText(context, "${device}", Toast.LENGTH_LONG).show()
+        })
 
         binding.rvPairedDevices.adapter = adapter
         adapter.devices = binding.devicesViewModel!!.devices!!
