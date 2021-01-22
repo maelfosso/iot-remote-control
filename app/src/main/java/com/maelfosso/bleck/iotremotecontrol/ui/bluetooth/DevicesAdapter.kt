@@ -8,17 +8,26 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
+import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.maelfosso.bleck.iotremotecontrol.BluetoothConnectionActivity
 import com.maelfosso.bleck.iotremotecontrol.R
 
-class DevicesAdapter(devicesList: List<BluetoothDevice>?) : RecyclerView.Adapter<DevicesAdapter.ViewHolder>() {
+class DevicesAdapter() // (devicesList: List<BluetoothDevice>?) //,  val clickListener: DevicesListener)
+//        : ListAdapter<BluetoothDevice, DevicesAdapter.ViewHolder>() {
+
+        : RecyclerView.Adapter<DevicesAdapter.ViewHolder>() {
 
     companion object {
         var TAG: String = javaClass.name
     }
 
-    var devices: List<BluetoothDevice>? = devicesList
+    var devices = listOf<BluetoothDevice>() // List<BluetoothDevice>? = devicesList
+        set(value) {
+            field = value
+            notifyDataSetChanged()
+        }
+
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
         val v = LayoutInflater.from(parent.context)
@@ -27,9 +36,11 @@ class DevicesAdapter(devicesList: List<BluetoothDevice>?) : RecyclerView.Adapter
     }
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
-        holder.name.text = devices!![position].name
-        holder.address.text = devices!![position].address
+        holder.name.text = devices[position].name
+        holder.address.text = devices[position].address
         holder.status.text = "paired"
+
+//        holder.
     }
 
     override fun getItemCount(): Int {
@@ -56,4 +67,9 @@ class DevicesAdapter(devicesList: List<BluetoothDevice>?) : RecyclerView.Adapter
             }
         }
     }
+
+}
+
+class DevicesListener(val clickListener: (deviceAddress: String) -> Unit) {
+    fun onClick(device: BluetoothDevice) = clickListener(device.address)
 }

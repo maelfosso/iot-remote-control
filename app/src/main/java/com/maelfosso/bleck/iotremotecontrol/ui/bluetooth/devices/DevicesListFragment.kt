@@ -10,10 +10,13 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.databinding.DataBindingUtil
+import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.maelfosso.bleck.iotremotecontrol.BluetoothConnectionActivity
 import com.maelfosso.bleck.iotremotecontrol.R
+import com.maelfosso.bleck.iotremotecontrol.databinding.FragmentDevicesListBinding
 import com.maelfosso.bleck.iotremotecontrol.ui.bluetooth.DevicesAdapter
 import kotlinx.android.synthetic.main.fragment_devices_list.*
 
@@ -26,35 +29,45 @@ class DevicesListFragment : Fragment() {
         var TAG: String = javaClass.name
     }
 
-    lateinit var bluetoothAdapter: BluetoothAdapter
-
-    private var layoutManager: RecyclerView.LayoutManager? = null
-    private var adapter: RecyclerView.Adapter<RecyclerView.ViewHolder>? = null
+    private var _binding: FragmentDevicesListBinding? = null
+    private val binding get() = _binding!!
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_devices_list, container, false)
+        _binding = DataBindingUtil.inflate(
+            inflater,
+            R.layout.fragment_devices_list,
+            container, false)
+
+        val application = requireNotNull(activity).application
+        val bluetoothAdapter = BluetoothAdapter.getDefaultAdapter()
+
+        val viewModelFactory = DevicesViewModelFactory(bluetoothAdapter, application)
+        val devicesViewModel = ViewModelProvider(this, viewModelFactory).get(DevicesViewModel::class.java)
+        binding.devicesViewModel = devicesViewModel
+        binding.lifecycleOwner = this
+
+        return binding.root
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        bluetoothAdapter = BluetoothAdapter.getDefaultAdapter()
-
-        val pairedDevices: Set<BluetoothDevice>? = bluetoothAdapter?.bondedDevices
-        pairedDevices?.forEach { device ->
-            Log.d(TAG, "Devices : ${device.name} - ${device.address}")
+        binding.devicesViewModel?.devices?.forEach {
+            Log.d(TAG, "VMODEL - Devics : ${it.name} - ${it.address}")
         }
-        rv_paired_devices.apply {
-            layoutManager  = LinearLayoutManager(activity)
-            adapter = DevicesAdapter(pairedDevices?.toList())
-        }
+        val adapter = DevicesAdapter()
 
-//        view.findViewById<Button>(R.id.button_second).setOnClickListener {
-//            findNavController().navigate(R.id.action_SecondFragment_to_FirstFragment)
-//        }
+        binding.rvPairedDevices.adapter = adapter
+        adapter.devices = binding.devicesViewModel!!.devices!!
+
+    }
+
+    override fun onDestroyView() {
+        super.onDestroyView()
+        _binding = null
     }
 }
