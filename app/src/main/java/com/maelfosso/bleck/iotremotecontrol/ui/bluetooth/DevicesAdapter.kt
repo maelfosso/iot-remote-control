@@ -1,15 +1,12 @@
 package com.maelfosso.bleck.iotremotecontrol.ui.bluetooth
 
 import android.bluetooth.BluetoothDevice
-import android.util.Log
 import android.view.LayoutInflater
-import android.view.View
 import android.view.ViewGroup
-import android.widget.TextView
-import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.maelfosso.bleck.iotremotecontrol.R
 import com.maelfosso.bleck.iotremotecontrol.databinding.BluetoothDevicesItemBinding
+import com.maelfosso.bleck.iotremotecontrol.ui.bluetooth.devices.DevicesViewModel
 
 class DevicesAdapter(val clickListener: DevicesListener) :
 //        ListAdapter<BluetoothDevice, DevicesAdapter.ViewHolder>()
@@ -20,7 +17,7 @@ class DevicesAdapter(val clickListener: DevicesListener) :
         var TAG: String = javaClass.name
     }
 
-    var devices = listOf<BluetoothDevice>() // List<BluetoothDevice>? = devicesList
+    var devices = listOf<DevicesViewModel.Device>() // List<BluetoothDevice>? = devicesList
         set(value) {
             field = value
             notifyDataSetChanged()
@@ -47,13 +44,17 @@ class DevicesAdapter(val clickListener: DevicesListener) :
     }
 
     private fun ViewHolder.bind(
-        item: BluetoothDevice,
+        item: DevicesViewModel.Device,
         onClickListener: DevicesListener
     ) {
         with (binding) {
             name.text = item.name
             address.text = item.address
-            status.text = "paired"
+            status.setImageDrawable(
+                if (item.isConnectedTo)
+                    this.status.context.resources.getDrawable(R.drawable.ic_check_circle_24px) //, this.status.context.theme)
+                    else null
+            )
 
             device = item
             clickListener = onClickListener
@@ -69,7 +70,7 @@ class DevicesAdapter(val clickListener: DevicesListener) :
 
 
     class DevicesListener(val clickListener: (deviceAddress: String) -> Unit) {
-        fun onClick(device: BluetoothDevice) = clickListener(device.address)
+        fun onClick(device: DevicesViewModel.Device) = clickListener(device.address)
     }
 
 }
