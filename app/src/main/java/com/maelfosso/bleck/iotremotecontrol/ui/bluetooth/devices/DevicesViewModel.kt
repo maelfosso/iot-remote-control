@@ -2,8 +2,6 @@ package com.maelfosso.bleck.iotremotecontrol.ui.bluetooth.devices
 
 import android.app.Application
 import android.bluetooth.BluetoothAdapter
-import android.bluetooth.BluetoothSocket
-import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.maelfosso.bleck.iotremotecontrol.IOTApplication
@@ -17,10 +15,11 @@ class DevicesViewModel (
 
 
     private val _bluetoothAdapter = bluetoothAdapter
-    val devices = MutableLiveData<MutableList<Device>>()
+    val pairedDevices = MutableLiveData<MutableList<Device>>()
+    val discoveredDevices = MutableLiveData<MutableList<Device>>()
 
     init {
-        devices.postValue(
+        pairedDevices.postValue(
             bluetoothAdapter.bondedDevices
                 .filterNotNull()
                 .toMutableList()
@@ -35,8 +34,8 @@ class DevicesViewModel (
             .observeOn(AndroidSchedulers.mainThread())
             .subscribe(
                 {
-                    devices.value?.forEachIndexed {index, device ->
-                        devices.value!![index].isConnectedTo = device.address === address
+                    pairedDevices.value?.forEachIndexed { index, device ->
+                        pairedDevices.value!![index].isConnectedTo = device.address === address
 //                        devices.value?.get(index).isConnectedTo [index].isConnectedTo = device.address === address
                     }
 
