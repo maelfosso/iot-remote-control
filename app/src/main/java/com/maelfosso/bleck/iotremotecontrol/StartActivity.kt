@@ -1,5 +1,7 @@
 package com.maelfosso.bleck.iotremotecontrol
 
+import android.content.Context
+import android.content.Intent
 import android.os.Bundle
 import android.util.Log
 import android.view.Menu
@@ -21,6 +23,11 @@ import androidx.preference.PreferenceManager
 class StartActivity : AppCompatActivity() , NavigationView.OnNavigationItemSelectedListener {
     companion object {
         public var TAG: String = javaClass.name
+
+        fun start(context: Context) {
+            val intent = Intent(context, StartActivity::class.java).apply {}
+            context.startActivity(intent)
+        }
     }
 
     private lateinit var appBarConfiguration: AppBarConfiguration

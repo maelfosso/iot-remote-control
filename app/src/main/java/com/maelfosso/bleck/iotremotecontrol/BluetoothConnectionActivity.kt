@@ -47,25 +47,25 @@ class BluetoothConnectionActivity : AppCompatActivity() {
 //                .setAction("Action", null).show()
 //        }
 
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
-            if (ContextCompat.checkSelfPermission(baseContext,
-                    Manifest.permission.ACCESS_BACKGROUND_LOCATION)
-                != PackageManager.PERMISSION_GRANTED
-            ) {
-                ActivityCompat.requestPermissions(
-                    this,
-                    arrayOf(Manifest.permission.ACCESS_BACKGROUND_LOCATION),
-                    PERMISSION_CODE
-                )
-
-//                return
-            }
-        }
-
-        if (setupBluetooth()) {
-            // Open the Fragment in which I will find Devices
-            listDevices();
-        }
+//        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
+//            if (ContextCompat.checkSelfPermission(baseContext,
+//                    Manifest.permission.ACCESS_BACKGROUND_LOCATION)
+//                != PackageManager.PERMISSION_GRANTED
+//            ) {
+//                ActivityCompat.requestPermissions(
+//                    this,
+//                    arrayOf(Manifest.permission.ACCESS_BACKGROUND_LOCATION),
+//                    PERMISSION_CODE
+//                )
+//
+////                return
+//            }
+//        }
+//
+//        if (setupBluetooth()) {
+//            // Open the Fragment in which I will find Devices
+//            listDevices();
+//        }
     }
 
     private fun setupBluetooth(): Boolean {
