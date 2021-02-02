@@ -1,42 +1,31 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    tools:context=".MainActivity">
+    tools:context=".ui.board.BoardFragment">
 
-    <com.google.android.material.appbar.AppBarLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:theme="@style/AppTheme.AppBarOverlay">
+    <data>
+        <variable
+            name="boardViewModel"
+            type="com.maelfosso.bleck.iotremotecontrol.ui.board.BoardViewModel" />
+    </data>
 
-        <androidx.appcompat.widget.Toolbar
-            android:id="@+id/toolbar"
-            android:layout_width="match_parent"
-            android:layout_height="?attr/actionBarSize"
-            android:background="?attr/colorPrimary"
-            app:popupTheme="@style/AppTheme.PopupOverlay" />
-
-    </com.google.android.material.appbar.AppBarLayout>
-
-    <com.google.android.flexbox.FlexboxLayout
+    <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        xmlns:tools="http://schemas.android.com/tools"
-        android:padding="16dp"
-        tools:showIn="@layout/activity_main"
-        app:flexDirection="column"
-        app:justifyContent="space_between">
+        android:padding="16dp">
 
         <LinearLayout
             android:id="@+id/mainLinearLayout"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_marginTop="16dp"
+            android:layout_height="0dp"
+            app:layout_constraintVertical_weight="1"
             android:orientation="vertical"
             app:layout_flexGrow="1"
-            app:layout_flexShrink="1">
+            app:layout_flexShrink="1"
+
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintBottom_toTopOf="@id/tableLayout">
 
             <TextView
                 android:id="@+id/screen"
@@ -71,10 +60,15 @@
         <TableLayout
             android:id="@+id/tableLayout"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
+            android:layout_height="0dp"
+            app:layout_constraintVertical_weight="1"
+
             android:layout_marginTop="5dp"
             app:layout_flexGrow="1"
-            app:layout_flexShrink="1">
+            app:layout_flexShrink="1"
+
+            app:layout_constraintTop_toBottomOf="@id/mainLinearLayout"
+            app:layout_constraintBottom_toBottomOf="parent">
 
             <TableRow
                 android:layout_width="match_parent"
@@ -82,32 +76,37 @@
                 android:layout_height="0dp">
 
                 <Button
-                    android:id="@+id/btn1"
+                    android:id="@+id/key1"
                     android:layout_weight="1"
                     android:layout_width="0dp"
                     android:layout_height="match_parent"
-                    android:text="1" />
+                    android:text="@string/key_1"
+                    android:onClick="@{() -> boardViewModel.onKeyClicked(@string/key_1)}"/>
 
                 <Button
-                    android:id="@+id/btn2"
+                    android:id="@+id/key2"
                     android:layout_weight="1"
                     android:layout_width="0dp"
                     android:layout_height="match_parent"
-                    android:text="2" />
+                    android:text="@string/key_2"
+                    android:onClick="@{() -> boardViewModel.onKeyClicked(@string/key_2)}" />
 
                 <Button
-                    android:id="@+id/btn3"
+                    android:id="@+id/key3"
                     android:layout_weight="1"
                     android:layout_width="0dp"
                     android:layout_height="match_parent"
-                    android:text="3" />
+                    android:text="@string/key_3"
+                    android:onClick="@{() -> boardViewModel.onKeyClicked(@string/key_3)}" />
 
                 <Button
-                    android:id="@+id/btnA"
+                    android:id="@+id/keyA"
                     android:layout_weight="1"
                     android:layout_width="0dp"
                     android:layout_height="match_parent"
-                    android:text="A" />
+                    android:text="@string/key_a"
+                    android:onClick="@{() -> boardViewModel.onKeyClicked(@string/key_a)}" />
+                
             </TableRow>
 
             <TableRow
@@ -116,28 +115,28 @@
                 android:layout_height="0dp">
 
                 <Button
-                    android:id="@+id/btn4"
+                    android:id="@+id/key4"
                     android:layout_weight="1"
                     android:layout_width="0dp"
                     android:layout_height="match_parent"
                     android:text="4" />
 
                 <Button
-                    android:id="@+id/btn5"
+                    android:id="@+id/key5"
                     android:layout_weight="1"
                     android:layout_width="0dp"
                     android:layout_height="match_parent"
                     android:text="5" />
 
                 <Button
-                    android:id="@+id/btn6"
+                    android:id="@+id/key6"
                     android:layout_weight="1"
                     android:layout_width="0dp"
                     android:layout_height="match_parent"
                     android:text="6" />
 
                 <Button
-                    android:id="@+id/btnB"
+                    android:id="@+id/keyB"
                     android:layout_weight="1"
                     android:layout_width="0dp"
                     android:layout_height="match_parent"
@@ -150,28 +149,28 @@
                 android:layout_height="0dp">
 
                 <Button
-                    android:id="@+id/btn7"
+                    android:id="@+id/key7"
                     android:layout_weight="1"
                     android:layout_width="0dp"
                     android:layout_height="match_parent"
                     android:text="7" />
 
                 <Button
-                    android:id="@+id/btn8"
+                    android:id="@+id/key8"
                     android:layout_weight="1"
                     android:layout_width="0dp"
                     android:layout_height="match_parent"
                     android:text="8" />
 
                 <Button
-                    android:id="@+id/btn9"
+                    android:id="@+id/key9"
                     android:layout_weight="1"
                     android:layout_width="0dp"
                     android:layout_height="match_parent"
                     android:text="9" />
 
                 <Button
-                    android:id="@+id/btnC"
+                    android:id="@+id/keyC"
                     android:layout_weight="1"
                     android:layout_width="0dp"
                     android:layout_height="match_parent"
@@ -184,28 +183,28 @@
                 android:layout_height="0dp">
 
                 <Button
-                    android:id="@+id/btn0"
+                    android:id="@+id/key0"
                     android:layout_weight="1"
                     android:layout_width="0dp"
                     android:layout_height="match_parent"
                     android:text="0" />
 
                 <Button
-                    android:id="@+id/btnStar"
+                    android:id="@+id/keyStar"
                     android:layout_weight="1"
                     android:layout_width="0dp"
                     android:layout_height="match_parent"
                     android:text="*" />
 
                 <Button
-                    android:id="@+id/btnHash"
+                    android:id="@+id/keyHash"
                     android:layout_weight="1"
                     android:layout_width="0dp"
                     android:layout_height="match_parent"
                     android:text="#" />
 
                 <Button
-                    android:id="@+id/btnD"
+                    android:id="@+id/keyD"
                     android:layout_weight="1"
                     android:layout_width="0dp"
                     android:layout_height="match_parent"
@@ -218,28 +217,28 @@
                 android:layout_height="0dp">
 
                 <Button
-                    android:id="@+id/btnF1"
+                    android:id="@+id/keyF1"
                     android:layout_weight="1"
                     android:layout_width="0dp"
                     android:layout_height="match_parent"
                     android:text="F1" />
 
                 <Button
-                    android:id="@+id/btnF2"
+                    android:id="@+id/keyF2"
                     android:layout_weight="1"
                     android:layout_width="0dp"
                     android:layout_height="match_parent"
                     android:text="F2" />
 
                 <Button
-                    android:id="@+id/btnF3"
+                    android:id="@+id/keyF3"
                     android:layout_weight="1"
                     android:layout_width="0dp"
                     android:layout_height="match_parent"
                     android:text="F3" />
 
                 <Button
-                    android:id="@+id/btnF4"
+                    android:id="@+id/keyF4"
                     android:layout_weight="1"
                     android:layout_width="0dp"
                     android:layout_height="match_parent"
@@ -248,7 +247,6 @@
 
         </TableLayout>
 
-    </com.google.android.flexbox.FlexboxLayout>
+    </androidx.constraintlayout.widget.ConstraintLayout>
 
-
-</androidx.constraintlayout.widget.ConstraintLayout>
+</layout>

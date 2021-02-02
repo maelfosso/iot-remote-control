@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="utf-8"?>
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    app:iconSpaceReserved="false">
+
+    <PreferenceCategory android:title="Keys values"
+        app:iconSpaceReserved="false"
+    >
+        <EditTextPreference
+            android:key="key_1"
+            android:title="Key 1"
+            android:defaultValue="0001"
+            app:iconSpaceReserved="false"/>
+        <EditTextPreference
+            android:defaultValue="0010"
+            android:key="key_2"
+            android:title="Key 2"
+            app:iconSpaceReserved="false" />
+        <EditTextPreference
+            android:key="key_3"
+            android:title="Key 3"
+            android:defaultValue="0011"
+            app:iconSpaceReserved="false" />
+        <EditTextPreference
+            android:key="key_4"
+            android:title="Key 4"
+            android:defaultValue="0100"
+            app:iconSpaceReserved="false" />
+        <EditTextPreference
+            android:defaultValue="'0101'"
+            android:key="key_5"
+            android:title="Key 5"
+            app:iconSpaceReserved="false" />
+        <EditTextPreference
+            android:defaultValue="0110"
+            android:key="key_6"
+            android:title="Key 6"
+            android:inputType="text"
+            app:iconSpaceReserved="false" />
+        <EditTextPreference
+            android:defaultValue="0111"
+            android:key="key_7"
+            android:title="Key 7"
+            android:inputType="text"
+            app:iconSpaceReserved="false" />
+        <EditTextPreference
+            android:defaultValue="1000"
+            android:key="key_8"
+            android:title="Key 8"
+            app:iconSpaceReserved="false" />
+        <EditTextPreference
+            android:defaultValue="1001"
+            android:key="key_9"
+            android:title="Key 9"
+            app:iconSpaceReserved="false" />
+        <EditTextPreference
+            android:defaultValue="0000"
+            android:key="key_0"
+            android:title="Key 0"
+            app:iconSpaceReserved="false" />
+    </PreferenceCategory>
+
+</PreferenceScreen>
