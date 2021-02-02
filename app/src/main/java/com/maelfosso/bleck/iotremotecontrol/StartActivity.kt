@@ -1,5 +1,7 @@
 package com.maelfosso.bleck.iotremotecontrol
 
+import android.content.Context
+import android.content.Intent
 import android.os.Bundle
 import android.util.Log
 import android.view.Menu
@@ -21,6 +23,11 @@ import androidx.preference.PreferenceManager
 class StartActivity : AppCompatActivity() , NavigationView.OnNavigationItemSelectedListener {
     companion object {
         public var TAG: String = javaClass.name
+
+        fun start(context: Context) {
+            val intent = Intent(context, StartActivity::class.java).apply {}
+            context.startActivity(intent)
+        }
     }
 
     private lateinit var appBarConfiguration: AppBarConfiguration
@@ -46,7 +53,7 @@ class StartActivity : AppCompatActivity() , NavigationView.OnNavigationItemSelec
         // menu should be considered as top level destinations.
         appBarConfiguration = AppBarConfiguration(
             setOf(
-                R.id.nav_board, R.id.nav_gallery, R.id.nav_settings
+                R.id.nav_board, R.id.nav_bluetooth, R.id.nav_settings
             ), drawerLayout
         )
         setupActionBarWithNavController(navController, appBarConfiguration)
@@ -59,8 +66,35 @@ class StartActivity : AppCompatActivity() , NavigationView.OnNavigationItemSelec
 
     override fun onCreateOptionsMenu(menu: Menu): Boolean {
         // Inflate the menu; this adds items to the action bar if it is present.
+
         menuInflater.inflate(R.menu.start, menu)
         return true
+    }
+
+    override fun onPrepareOptionsMenu(menu: Menu?): Boolean {
+        invalidateOptionsMenu()
+
+        menu?.findItem(R.id.action_connection)?.setIcon(
+            if (IOTApplication.wrappedArduinoDevice == null)
+                R.drawable.ic_bluetooth_disabled_24px
+            else
+                R.drawable.ic_bluetooth_connected_24px
+        )
+        return super.onPrepareOptionsMenu(menu)
+    }
+
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        return when (item.itemId) {
+            R.id.action_connection -> {
+                BluetoothConnectionActivity.start(this)
+                true
+            }
+            R.id.action_settings -> {
+                SettingsActivity.start(this)
+                true
+            }
+            else -> super.onOptionsItemSelected(item)
+        }
     }
 
     override fun onSupportNavigateUp(): Boolean {
@@ -72,14 +106,27 @@ class StartActivity : AppCompatActivity() , NavigationView.OnNavigationItemSelec
         val handled = NavigationUI.onNavDestinationSelected(item, navController)
         Log.d(TAG, "onNavigationItemSelected - $handled")
 
-        if (!handled && item.itemId == R.id.nav_settings) {
-            Toast.makeText(this, "Settings activity", Toast.LENGTH_SHORT).show();
-            SettingsActivity.start(this);
-
+        if (!handled) {
+            when (item.itemId) {
+                R.id.nav_settings -> {
+                    Toast.makeText(this, "Settings activity", Toast.LENGTH_SHORT).show();
+                    SettingsActivity.start(this);
+                }
+                R.id.nav_bluetooth -> {
+                    Toast.makeText(this, "Bluetooth activity", Toast.LENGTH_SHORT).show();
+                    BluetoothConnectionActivity.start(this);
+                }
+            }
         }
 
         drawerLayout.closeDrawer(GravityCompat.START);
 
         return true;
+    }
+
+    override fun onDestroy() {
+        IOTApplication.close()
+
+        super.onDestroy()
     }
 }
