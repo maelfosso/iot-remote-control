@@ -8,13 +8,10 @@ import com.maelfosso.bleck.iotremotecontrol.IOTApplication
 import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers
 import io.reactivex.rxjava3.schedulers.Schedulers
 
-class DevicesViewModel (
-            bluetoothAdapter: BluetoothAdapter,
-            application: Application
-        ) : ViewModel() {
+class DevicesViewModel () : ViewModel() {
 
 
-    private val _bluetoothAdapter = bluetoothAdapter
+    private val bluetoothAdapter = IOTApplication.getBluetoothAdapter()
     val pairedDevices = MutableLiveData<MutableList<Device>>()
     val discoveredDevices = MutableLiveData<MutableList<Device>>()
 
@@ -28,8 +25,8 @@ class DevicesViewModel (
 //            .map { Device(it.name, it.address, false) }
     }
 
-    fun onClick(address: String, onComplete: () -> Unit, onError: () -> Unit) {
-        IOTApplication.openConnectionToArduinoDevice(_bluetoothAdapter, address)
+    fun onClick(address: String, onComplete: () -> Unit, onError: (it: Throwable) -> Unit) {
+        IOTApplication.openConnectionToArduinoDevice(address)
             .subscribeOn(Schedulers.io())
             .observeOn(AndroidSchedulers.mainThread())
             .subscribe(
@@ -42,7 +39,7 @@ class DevicesViewModel (
                     onComplete()
                 },
                 {
-                    onError()
+                    onError(it)
                 }
             )
 

@@ -66,8 +66,35 @@ class StartActivity : AppCompatActivity() , NavigationView.OnNavigationItemSelec
 
     override fun onCreateOptionsMenu(menu: Menu): Boolean {
         // Inflate the menu; this adds items to the action bar if it is present.
+
         menuInflater.inflate(R.menu.start, menu)
         return true
+    }
+
+    override fun onPrepareOptionsMenu(menu: Menu?): Boolean {
+        invalidateOptionsMenu()
+
+        menu?.findItem(R.id.action_connection)?.setIcon(
+            if (IOTApplication.wrappedArduinoDevice == null)
+                R.drawable.ic_bluetooth_disabled_24px
+            else
+                R.drawable.ic_bluetooth_connected_24px
+        )
+        return super.onPrepareOptionsMenu(menu)
+    }
+
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        return when (item.itemId) {
+            R.id.action_connection -> {
+                BluetoothConnectionActivity.start(this)
+                true
+            }
+            R.id.action_settings -> {
+                SettingsActivity.start(this)
+                true
+            }
+            else -> super.onOptionsItemSelected(item)
+        }
     }
 
     override fun onSupportNavigateUp(): Boolean {
@@ -86,17 +113,20 @@ class StartActivity : AppCompatActivity() , NavigationView.OnNavigationItemSelec
                     SettingsActivity.start(this);
                 }
                 R.id.nav_bluetooth -> {
-                    Toast.makeText(this, "Settings activity", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(this, "Bluetooth activity", Toast.LENGTH_SHORT).show();
                     BluetoothConnectionActivity.start(this);
                 }
             }
         }
-//        if (!handled && item.itemId == R.id.nav_settings) {
-//
-//        }
 
         drawerLayout.closeDrawer(GravityCompat.START);
 
         return true;
+    }
+
+    override fun onDestroy() {
+        IOTApplication.close()
+
+        super.onDestroy()
     }
 }

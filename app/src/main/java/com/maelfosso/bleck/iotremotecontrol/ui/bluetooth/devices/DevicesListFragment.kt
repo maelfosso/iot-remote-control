@@ -87,7 +87,7 @@ class DevicesListFragment : Fragment() {
         val application = requireNotNull(activity).application
         bluetoothAdapter = BluetoothAdapter.getDefaultAdapter()
 
-        val viewModelFactory = DevicesViewModelFactory(bluetoothAdapter, application)
+        val viewModelFactory = DevicesViewModelFactory()
         devicesViewModel = ViewModelProvider(this, viewModelFactory).get(DevicesViewModel::class.java)
         binding.devicesViewModel = devicesViewModel
         binding.lifecycleOwner = this
